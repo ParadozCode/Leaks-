@@ -1,0 +1,102 @@
+--- Btw just so yk ur a horrible skidder 🤡🤡🤡🤡🤡 
+-- Toggle FastAttack
+_G.FastAttack = not _G.FastAttack
+
+local function SafeWaitForChild(parent, childName)
+    local success, result = pcall(function()
+        return parent:WaitForChild(childName)
+    end)
+    if not success or not result then
+        warn("noooooo: " .. childName)
+    end
+    return result
+end
+
+if _G.FastAttack then
+    -- Services
+    local ReplicatedStorage = game:GetService("ReplicatedStorage")
+    local RunService = game:GetService("RunService")
+    local Players = game:GetService("Players")
+    local Player = Players.LocalPlayer
+
+    if not Player then return end
+
+    local Modules = SafeWaitForChild(ReplicatedStorage, "Modules")
+    local Net = SafeWaitForChild(Modules, "Net")
+
+    local Settings = {
+        AutoClick = true,
+        ClickDelay = 0,
+    }
+
+    local FastAttack
+    if _G.rz_FastAttack then
+        FastAttack = _G.rz_FastAttack
+    else
+        FastAttack = {}
+    end
+
+    local RegisterAttack = SafeWaitForChild(Net, "RE/RegisterAttack")
+    local RegisterHit = SafeWaitForChild(Net, "RE/RegisterHit")
+    local Enemies = workspace:WaitForChild("Enemies")
+    local Characters = workspace:WaitForChild("Characters")
+
+    function FastAttack:IsAlive(character)
+        return character and character:FindFirstChild("Humanoid") and character.Humanoid.Health > 0
+    end
+
+    function FastAttack:ProcessEnemies(OthersEnemies, Folder)
+        local BasePart = nil
+        for _, Enemy in Folder:GetChildren() do
+            local Head = Enemy:FindFirstChild("Head")
+            if Head and self:IsAlive(Enemy) and Player:DistanceFromCharacter(Head.Position) < 100 then
+                if Enemy ~= Player.Character then
+                    table.insert(OthersEnemies, {Enemy, Head})
+                    BasePart = Head
+                end
+            end
+        end
+        return BasePart
+    end
+
+    function FastAttack:Attack(BasePart, OthersEnemies)
+        if not BasePart or #OthersEnemies == 0 then return end
+        RegisterAttack:FireServer(Settings.ClickDelay or 0)
+        RegisterHit:FireServer(BasePart, OthersEnemies)
+    end
+
+    function FastAttack:AttackNearest()
+        local OthersEnemies = {}
+        local Part1 = self:ProcessEnemies(OthersEnemies, Enemies)
+        local Part2 = self:ProcessEnemies(OthersEnemies, Characters)
+        if #OthersEnemies > 0 then
+            self:Attack(Part1 or Part2, OthersEnemies)
+        end
+    end
+
+    function FastAttack:BladeHits()
+        local Equipped = Player.Character and Player.Character:FindFirstChildOfClass("Tool")
+        if Equipped and Equipped.ToolTip ~= "Gun" then
+            self:AttackNearest()
+        end
+    end
+
+    -- Toggle loop
+    if not _G.FastAttackLoop then
+        _G.FastAttackLoop = true
+        _G.rz_FastAttack = FastAttack
+        task.spawn(function()
+            while _G.FastAttackLoop do
+                if Settings.AutoClick then
+                    FastAttack:BladeHits()
+                end
+                task.wait(Settings.ClickDelay)
+            end
+        end)
+    end
+
+else
+    -- Disable FastAttack
+    _G.FastAttackLoop = false
+    print("FastAttack Disabled!")
+end
