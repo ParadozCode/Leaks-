@@ -1,4 +1,5 @@
 --- Btw just so yk ur a horrible skidder 🤡🤡🤡🤡🤡 
+--- open source
 -- Toggle FastAttack
 _G.FastAttack = not _G.FastAttack
 
