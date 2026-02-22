@@ -1,0 +1,997 @@
+ts file was generated at discord.gg/25ms
+
+local u1 = loadstring(game:HttpGet('https://raw.githubusercontent.com/tlredz/Library/refs/heads/main/redz-V5-remake/main.luau'))():MakeWindow({
+    Title = 'Centudox Pc',
+    SubTitle = 'release v2',
+    ScriptFolder = 'Centudox',
+})
+local v2 = u1
+local v3 = u1.MakeTab(v2, {
+    Title = 'Discord',
+    Icon = 'Info',
+})
+local v4 = u1
+local v5 = u1.MakeTab(v4, {
+    Title = 'Main',
+    Icon = 'Home',
+})
+local v6 = u1
+local v7 = u1.MakeTab(v6, {
+    Title = 'Aimbot',
+    Icon = 'Target',
+})
+local v8 = u1
+local v9 = u1.MakeTab(v8, {
+    Title = 'ESP',
+    Icon = 'Eye',
+})
+
+getgenv().setting = {
+    Fov = 500,
+    AimbotSkill = false,
+    Aimlock = false,
+    Hardlock = false,
+    AimbotTap = false,
+    DownwardMultiplier = 0.1,
+    SquareESP = false,
+    HighlightESP = false,
+    DistanceESP = false,
+    NameESP = false,
+    WalkSpeed = 16,
+    WalkSpeedEnabled = false,
+    Key_AimbotSkill = 'V',
+    Key_Aimlock = 'F',
+}
+getgenv().WalkOnWater = true
+
+local u10 = nil
+local u11 = nil
+local _Players = game:GetService('Players')
+local _LocalPlayer = _Players.LocalPlayer
+local _RunService = game:GetService('RunService')
+local _UserInputService = game:GetService('UserInputService')
+local _CurrentCamera = workspace.CurrentCamera
+local u17 = _LocalPlayer:GetMouse()
+local u18 = {
+    Squares = {},
+    Highlights = {},
+    DistanceLabels = {},
+    NameLabels = {},
+}
+local _Circle = Drawing.new('Circle')
+
+_Circle.Transparency = 1
+_Circle.Thickness = 2
+_Circle.NumSides = 100
+_Circle.Filled = false
+_Circle.Color = Color3.fromRGB(255, 255, 255)
+
+local _TextLabel = Instance.new('TextLabel')
+
+_TextLabel.Size = UDim2.new(0, 200, 0, 25)
+_TextLabel.Position = UDim2.new(0, 10, 0, 200)
+_TextLabel.BackgroundTransparency = 1
+_TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+_TextLabel.Text = 'Target: None'
+_TextLabel.Font = Enum.Font.FredokaOne
+_TextLabel.TextSize = 14
+_TextLabel.Parent = game:GetService('CoreGui')
+
+local _TextLabel2 = Instance.new('TextLabel')
+
+_TextLabel2.Size = UDim2.new(0, 200, 0, 25)
+_TextLabel2.Position = UDim2.new(0, 10, 0, 230)
+_TextLabel2.BackgroundTransparency = 1
+_TextLabel2.TextColor3 = Color3.fromRGB(255, 255, 255)
+_TextLabel2.Text = 'Name | N/A'
+_TextLabel2.Font = Enum.Font.FredokaOne
+_TextLabel2.TextSize = 14
+_TextLabel2.Parent = game:GetService('CoreGui')
+
+local _TextLabel3 = Instance.new('TextLabel')
+
+_TextLabel3.Size = UDim2.new(0, 200, 0, 25)
+_TextLabel3.Position = UDim2.new(0, 10, 0, 260)
+_TextLabel3.BackgroundTransparency = 1
+_TextLabel3.TextColor3 = Color3.fromRGB(255, 255, 255)
+_TextLabel3.Text = 'Health | N/A'
+_TextLabel3.Font = Enum.Font.FredokaOne
+_TextLabel3.TextSize = 14
+_TextLabel3.Parent = game:GetService('CoreGui')
+
+local function u26(p23, p24, p25)
+    u1:Notify({
+        Title = p23,
+        Content = p24,
+        Image = 'rbxassetid://115786341377525',
+        Duration = p25 or 2,
+    })
+end
+
+v3:AddDiscordInvite({
+    Title = 'CENTUDOX Hub',
+    Description = 'official CENTUDOX hub community server -- join for updates, chat and support!',
+    Logo = 'rbxassetid://115786341377525',
+    Banner = 'rbxassetid://115786341377525',
+    Invite = '',
+})
+
+local function u32()
+    local _CommE = game:GetService('ReplicatedStorage').Remotes.CommE
+    local v28 = getrawmetatable(_CommE)
+    local ___namecall = v28.__namecall
+
+    setreadonly(v28, false)
+
+    v28.__namecall = newcclosure(function(p30, ...)
+        local v31 = getnamecallmethod()
+
+        if p30 ~= _CommE or (v31 ~= 'FireServer' or ({...})[1] ~= 'Dodge') then
+            return ___namecall(p30, ...)
+        end
+
+        warn('Blocked Dodge')
+    end)
+
+    setreadonly(v28, true)
+end
+local function u37()
+    local _CommE2 = game:GetService('ReplicatedStorage').Remotes.CommE
+    local v34 = getrawmetatable(_CommE2)
+    local ___namecall2 = v34.__namecall
+
+    setreadonly(v34, false)
+
+    v34.__namecall = newcclosure(function(p36, ...)
+        if getnamecallmethod() ~= 'FireServer' or ({...})[1] ~= 'DoubleJump' then
+            return ___namecall2(p36, ...)
+        end
+
+        warn('Blocked DoubleJump')
+    end)
+
+    setreadonly(v34, true)
+end
+local function u38()
+    u32()
+    u37()
+    u26('Infinite Energy', 'Enabled')
+end
+
+function InfAb()
+    if _G.Settings.LocalPlayer['Infinite Ability'] then
+        if not game:GetService('Players').LocalPlayer.Character.HumanoidRootPart:FindFirstChild('Agility') then
+            local _ParticleEmitter = Instance.new('ParticleEmitter')
+
+            _ParticleEmitter.Acceleration = Vector3.new(0, 0, 0)
+            _ParticleEmitter.Archivable = true
+            _ParticleEmitter.Drag = 20
+            _ParticleEmitter.EmissionDirection = Enum.NormalId.Top
+            _ParticleEmitter.Enabled = true
+            _ParticleEmitter.Lifetime = NumberRange.new(0, 0)
+            _ParticleEmitter.LightInfluence = 0
+            _ParticleEmitter.LockedToPart = true
+            _ParticleEmitter.Name = 'Agility'
+            _ParticleEmitter.Rate = 500
+
+            local v40 = {
+                NumberSequenceKeypoint.new(0, 0),
+                NumberSequenceKeypoint.new(1, 4),
+            }
+
+            _ParticleEmitter.Size = NumberSequence.new(v40)
+            _ParticleEmitter.RotSpeed = NumberRange.new(9999, 99999)
+            _ParticleEmitter.Rotation = NumberRange.new(0, 0)
+            _ParticleEmitter.Speed = NumberRange.new(30, 30)
+            _ParticleEmitter.SpreadAngle = Vector2.new(0, 0, 0, 0)
+            _ParticleEmitter.Texture = ''
+            _ParticleEmitter.VelocityInheritance = 0
+            _ParticleEmitter.ZOffset = 2
+            _ParticleEmitter.Transparency = NumberSequence.new(0)
+            _ParticleEmitter.Color = ColorSequence.new(Color3.fromRGB(0, 0, 0), Color3.fromRGB(0, 0, 0))
+            _ParticleEmitter.Parent = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart
+        end
+    elseif game:GetService('Players').LocalPlayer.Character.HumanoidRootPart:FindFirstChild('Agility') then
+        game:GetService('Players').LocalPlayer.Character.HumanoidRootPart:FindFirstChild('Agility'):Destroy()
+    end
+end
+
+v5:AddSection('Utility')
+v5:AddSection('Movement')
+v5:AddToggle({
+    Name = 'Increase Speed',
+    Default = false,
+    Callback = function(p41)
+        if p41 then
+            _G.Settings = _G.Settings or {LocalPlayer = {}}
+            _G.Settings.LocalPlayer['Infinite Ability'] = true
+        else
+            _G.Settings.LocalPlayer['Infinite Ability'] = false
+        end
+
+        InfAb()
+        u26('Increase Speed', p41 and 'Enabled' or 'Disabled')
+    end,
+})
+v5:AddButton({
+    Name = 'Infinite Energy',
+    Callback = function()
+        u38()
+    end,
+})
+v5:AddToggle({
+    Name = 'Walk On Water',
+    Default = getgenv().WalkOnWater,
+    Callback = function(p42)
+        getgenv().WalkOnWater = p42
+
+        u26('Walk On Water', p42 and 'Enabled' or 'Disabled')
+        task.spawn(function()
+            local _Map = workspace:WaitForChild('Map', 9000000000)
+
+            while getgenv().WalkOnWater do
+                task.wait(0.1)
+
+                local _WaterBasePlane = _Map:FindFirstChild('WaterBase-Plane')
+
+                if _WaterBasePlane then
+                    _WaterBasePlane.Size = Vector3.new(1000, 113, 1000)
+                end
+            end
+
+            local _WaterBasePlane2 = _Map:FindFirstChild('WaterBase-Plane')
+
+            if _WaterBasePlane2 then
+                _WaterBasePlane2.Size = Vector3.new(1000, 80, 1000)
+            end
+        end)
+    end,
+})
+
+_G.FastAttackSettings = _G.FastAttackSettings or {
+    AutoClick = true,
+    ClickDelay = 0.3,
+}
+
+v5:AddSection('Kill Aura')
+v5:AddToggle({
+    Name = 'Fast Attack',
+    Default = _G.FastAttackSettings.AutoClick,
+    Callback = function(p46)
+        _G.FastAttackSettings.AutoClick = p46
+
+        if _ENV and _ENV.rz_FastAttack then
+            _ENV.rz_FastAttack.Settings.AutoClick = p46
+        end
+
+        u26('Fast Attack', p46 and 'Enabled \u{26a1}' or 'Disabled \u{26d4}')
+    end,
+})
+
+local u48 = v7:AddToggle({
+    Name = 'Aimbot Skill',
+    Default = getgenv().setting.AimbotSkill,
+    Callback = function(p47)
+        getgenv().setting.AimbotSkill = p47
+
+        if not p47 then
+            u10 = nil
+            u11 = nil
+            _TextLabel.Text = 'Target: None'
+            _TextLabel2.Text = 'Name | N/A'
+            _TextLabel3.Text = 'Health | N/A'
+        end
+
+        u26('Aimbot Skill', p47 and 'Enabled' or 'Disabled')
+    end,
+})
+local u50 = v7:AddToggle({
+    Name = 'Aimlock',
+    Default = getgenv().setting.Aimlock,
+    Callback = function(p49)
+        getgenv().setting.Aimlock = p49
+
+        if not p49 then
+            u10 = nil
+            u11 = nil
+            _TextLabel.Text = 'Target: None'
+            _TextLabel2.Text = 'Name | N/A'
+            _TextLabel3.Text = 'Health | N/A'
+        end
+
+        u26('Aimlock', p49 and 'Enabled' or 'Disabled')
+    end,
+})
+
+v7:AddToggle({
+    Name = 'Aimbot Tap',
+    Default = getgenv().setting.AimbotTap,
+    Callback = function(p51)
+        getgenv().setting.AimbotTap = p51
+
+        u26('Aimbot Tap', p51 and 'Enabled' or 'Disabled')
+    end,
+})
+v7:AddToggle({
+    Name = 'Hardlock',
+    Default = getgenv().setting.Hardlock,
+    Callback = function(p52)
+        getgenv().setting.Hardlock = p52
+
+        if not p52 then
+            u10 = nil
+            u11 = nil
+            _TextLabel.Text = 'Target: None'
+            _TextLabel2.Text = 'Name | N/A'
+            _TextLabel3.Text = 'Health | N/A'
+        end
+
+        u26('Hardlock', p52 and 'Enabled (STRICT)' or 'Disabled')
+    end,
+})
+
+getgenv().SelectedPlayer = nil
+
+local function u59()
+    local v53 = _Players
+    local v54, v55, v56 = ipairs(v53:GetPlayers())
+    local v57 = {}
+
+    while true do
+        local v58
+
+        v56, v58 = v54(v55, v56)
+
+        if v56 == nil then
+            break
+        end
+        if v58 ~= _LocalPlayer then
+            table.insert(v57, v58.Name)
+        end
+    end
+
+    return v57
+end
+
+local u61 = v7:AddDropdown({
+    Name = 'Select Target Player',
+    Options = u59(),
+    Default = '',
+    Callback = function(p60)
+        getgenv().SelectedPlayer = p60
+
+        u26('Target Player', p60 ~= '' and 'Locked to: ' .. p60 or 'Target cleared')
+
+        if u10 and u10 ~= getgenv().SelectedPlayer then
+            u10 = nil
+            u11 = nil
+            _TextLabel.Text = 'Target: None'
+            _TextLabel2.Text = 'Name | N/A'
+            _TextLabel3.Text = 'Health | N/A'
+        end
+    end,
+})
+
+v7:AddButton({
+    Name = 'Refresh Players',
+    Callback = function()
+        u61:NewOptions(u59())
+        u26('Player List', 'Refreshed')
+    end,
+})
+_Players.PlayerAdded:Connect(function(p62)
+    if p62 ~= _LocalPlayer and (u61 and u61.Add) then
+        u61:Add(p62.Name)
+    end
+end)
+_Players.PlayerRemoving:Connect(function(p63)
+    if u61 and u61.Remove then
+        pcall(function()
+            u61:Remove(p63.Name)
+        end)
+    end
+    if getgenv().SelectedPlayer == p63.Name then
+        getgenv().SelectedPlayer = nil
+
+        u61:Set('')
+        u26('Target Player', 'Target left the game')
+    end
+end)
+v7:AddSection('Keybinds')
+v7:AddTextBox({
+    Name = 'Aimbot Skill Key',
+    Default = getgenv().setting.Key_AimbotSkill,
+    Placeholder = 'Enter key (e.g. V)',
+    ClearOnFocus = false,
+    Callback = function(p64)
+        local _s = tostring(p64):gsub('%s+', '')
+
+        getgenv().setting.Key_AimbotSkill = string.upper(_s)
+
+        u26('Keybind', 'Aimbot key set to ' .. getgenv().setting.Key_AimbotSkill)
+    end,
+})
+v7:AddTextBox({
+    Name = 'Aimlock Key',
+    Default = getgenv().setting.Key_Aimlock,
+    Placeholder = 'Enter key (e.g. F)',
+    ClearOnFocus = false,
+    Callback = function(p66)
+        local _s2 = tostring(p66):gsub('%s+', '')
+
+        getgenv().setting.Key_Aimlock = string.upper(_s2)
+
+        u26('Keybind', 'Aimlock key set to ' .. getgenv().setting.Key_Aimlock)
+    end,
+})
+v9:AddToggle({
+    Name = 'Square ESP',
+    Default = getgenv().setting.SquareESP,
+    Callback = function(p68)
+        getgenv().setting.SquareESP = p68
+
+        u26('Square ESP', p68 and 'Enabled' or 'Disabled')
+
+        if not p68 then
+            local v69, v70, v71 = pairs(u18.Squares)
+
+            while true do
+                local v72
+
+                v71, v72 = v69(v70, v71)
+
+                if v71 == nil then
+                    break
+                end
+                if v72 then
+                    v72.Visible = false
+
+                    v72:Remove()
+                end
+            end
+
+            u18.Squares = {}
+        end
+    end,
+})
+v9:AddToggle({
+    Name = 'Distance ESP',
+    Default = getgenv().setting.DistanceESP,
+    Callback = function(p73)
+        getgenv().setting.DistanceESP = p73
+
+        u26('Distance ESP', p73 and 'Enabled' or 'Disabled')
+
+        if not p73 then
+            local v74, v75, v76 = pairs(u18.DistanceLabels)
+
+            while true do
+                local v77
+
+                v76, v77 = v74(v75, v76)
+
+                if v76 == nil then
+                    break
+                end
+                if v77 then
+                    v77.Visible = false
+
+                    v77:Remove()
+                end
+            end
+
+            u18.DistanceLabels = {}
+        end
+    end,
+})
+v9:AddToggle({
+    Name = 'Name ESP',
+    Default = getgenv().setting.NameESP,
+    Callback = function(p78)
+        getgenv().setting.NameESP = p78
+
+        u26('Name ESP', p78 and 'Enabled' or 'Disabled')
+
+        if not p78 then
+            local v79, v80, v81 = pairs(u18.NameLabels)
+
+            while true do
+                local v82
+
+                v81, v82 = v79(v80, v81)
+
+                if v81 == nil then
+                    break
+                end
+                if v82 then
+                    v82.Visible = false
+
+                    v82:Remove()
+                end
+            end
+
+            u18.NameLabels = {}
+        end
+    end,
+})
+
+local function u96(p83)
+    if not (getgenv().setting.AimbotSkill or (getgenv().setting.Aimlock or getgenv().setting.AimbotTap)) then
+        return nil
+    end
+
+    local v84 = nil
+    local _huge = math.huge
+    local _Character = _LocalPlayer.Character
+
+    if _Character then
+        _Character = _Character:FindFirstChild('HumanoidRootPart')
+    end
+    if not _Character then
+        return nil
+    end
+
+    local v87 = _Players
+    local v88, v89, v90 = pairs(v87:GetPlayers())
+
+    while true do
+        local v91
+
+        v90, v91 = v88(v89, v90)
+
+        if v90 == nil then
+            break
+        end
+        if v91 ~= _LocalPlayer and v91.Character then
+            local _HumanoidRootPart = v91.Character:FindFirstChild('HumanoidRootPart')
+            local _Humanoid = v91.Character:FindFirstChild('Humanoid')
+
+            if _Humanoid and (_Humanoid.Health > 0 and _HumanoidRootPart) then
+                local _Magnitude = (_HumanoidRootPart.Position - _Character.Position).Magnitude
+
+                if p83 then
+                    local v95 = _CurrentCamera:WorldToViewportPoint(_HumanoidRootPart.Position)
+
+                    if (Vector2.new(v95.X, v95.Y) - Vector2.new(u17.X, u17.Y)).magnitude < getgenv().setting.Fov * 3 and _Magnitude < _huge then
+                        if _Magnitude <= 1000 then
+                            v84 = v91
+                            _huge = _Magnitude
+                        end
+                    end
+                elseif _Magnitude < _huge then
+                    if _Magnitude <= 1000 then
+                        v84 = v91
+                        _huge = _Magnitude
+                    end
+                end
+            end
+        end
+    end
+
+    return v84
+end
+local function u104(p97)
+    if not (getgenv().setting.AimbotSkill or (getgenv().setting.Aimlock or getgenv().setting.AimbotTap)) then
+        return nil
+    end
+
+    local _Character2 = _LocalPlayer.Character
+
+    if _Character2 then
+        _Character2 = _Character2:FindFirstChild('HumanoidRootPart')
+    end
+    if not _Character2 then
+        return nil
+    end
+    if not getgenv().setting.Hardlock then
+        return u96(p97)
+    end
+
+    local _SelectedPlayer = getgenv().SelectedPlayer
+
+    if not _SelectedPlayer or _SelectedPlayer == '' then
+        return nil
+    end
+
+    local v100 = _Players:FindFirstChild(_SelectedPlayer)
+
+    if not (v100 and v100.Character) then
+        return nil
+    end
+
+    local _HumanoidRootPart2 = v100.Character:FindFirstChild('HumanoidRootPart')
+    local _Humanoid2 = v100.Character:FindFirstChild('Humanoid')
+
+    if not _Humanoid2 or (_Humanoid2.Health <= 0 or not _HumanoidRootPart2) then
+        return nil
+    end
+    if (_HumanoidRootPart2.Position - _Character2.Position).Magnitude > 1000 then
+        return nil
+    end
+    if p97 then
+        local v103 = _CurrentCamera:WorldToViewportPoint(_HumanoidRootPart2.Position)
+
+        if (Vector2.new(v103.X, v103.Y) - Vector2.new(u17.X, u17.Y)).magnitude >= getgenv().setting.Fov * 3 then
+            return nil
+        end
+    end
+
+    return v100
+end
+local function u105()
+    if _Circle then
+        _Circle.Visible = getgenv().setting.AimbotSkill or getgenv().setting.AimbotTap
+        _Circle.Radius = getgenv().setting.Fov * 3
+        _Circle.Position = Vector2.new(u17.X, u17.Y + game:GetService('GuiService'):GetGuiInset().Y)
+    end
+end
+local function u111()
+    if u10 and u11 then
+        local v106 = _Players:FindFirstChild(u10)
+
+        if v106 and v106.Character then
+            if getgenv().setting.Hardlock and v106.Name ~= getgenv().SelectedPlayer then
+                return
+            end
+
+            local v107 = {
+                'TAP',
+                Vector3.new(u11.X, u11.Y, u11.Z),
+            }
+            local _Character3 = _LocalPlayer.Character
+
+            if _Character3 then
+                local _SkullGuitar = _Character3:FindFirstChild('Skull Guitar')
+
+                if _SkullGuitar then
+                    local _RemoteEvent = _SkullGuitar:FindFirstChild('RemoteEvent')
+
+                    if _RemoteEvent then
+                        _RemoteEvent:FireServer(unpack(v107))
+                        print('Aimbot Tap fired at target: ' .. u10)
+                    else
+                        warn('Skull Guitar RemoteEvent not found')
+                    end
+                else
+                    warn('Skull Guitar not found in character')
+                end
+            end
+        end
+    end
+end
+local function u114(p112)
+    if not u18.Squares[p112] then
+        local _Square = Drawing.new('Square')
+
+        _Square.Thickness = 2
+        _Square.Filled = false
+        _Square.Color = Color3.fromRGB(255, 0, 0)
+        _Square.Visible = false
+        u18.Squares[p112] = _Square
+    end
+
+    return u18.Squares[p112]
+end
+local function u117(p115)
+    if not u18.DistanceLabels[p115] then
+        local _Text = Drawing.new('Text')
+
+        _Text.Size = 16
+        _Text.Color = Color3.fromRGB(255, 255, 255)
+        _Text.Outline = true
+        _Text.OutlineColor = Color3.fromRGB(0, 0, 0)
+        _Text.Visible = false
+        u18.DistanceLabels[p115] = _Text
+    end
+
+    return u18.DistanceLabels[p115]
+end
+local function u120(p118)
+    if not u18.NameLabels[p118] then
+        local _Text2 = Drawing.new('Text')
+
+        _Text2.Size = 18
+        _Text2.Color = Color3.fromRGB(255, 255, 255)
+        _Text2.Outline = true
+        _Text2.OutlineColor = Color3.fromRGB(0, 0, 0)
+        _Text2.Visible = false
+        u18.NameLabels[p118] = _Text2
+    end
+
+    return u18.NameLabels[p118]
+end
+local function u136()
+    local v121 = _Players
+    local v122, v123, v124 = pairs(v121:GetPlayers())
+
+    while true do
+        local v125
+
+        v124, v125 = v122(v123, v124)
+
+        if v124 == nil then
+            break
+        end
+        if v125 ~= _LocalPlayer and v125.Character and v125.Character:FindFirstChild('HumanoidRootPart') then
+            local _HumanoidRootPart3 = v125.Character.HumanoidRootPart
+            local _Head = v125.Character:FindFirstChild('Head')
+            local _Humanoid3 = v125.Character:FindFirstChild('Humanoid')
+
+            if _Humanoid3 and (_Humanoid3.Health > 0 and _Head) then
+                local v129, v130 = _CurrentCamera:WorldToViewportPoint(_HumanoidRootPart3.Position)
+
+                if getgenv().setting.SquareESP then
+                    local v131 = u114(v125)
+
+                    if v130 then
+                        local v132 = 2000 / (_CurrentCamera.CFrame.Position - _HumanoidRootPart3.Position).Magnitude
+
+                        v131.Size = Vector2.new(v132, v132 * 2)
+                        v131.Position = Vector2.new(v129.X - v131.Size.X / 2, v129.Y - v131.Size.Y / 2)
+                        v131.Visible = true
+                    else
+                        v131.Visible = false
+                    end
+                elseif u18.Squares[v125] then
+                    u18.Squares[v125].Visible = false
+                end
+                if getgenv().setting.DistanceESP and v130 then
+                    local v133 = u117(v125)
+                    local v134 = math.floor((_CurrentCamera.CFrame.Position - _HumanoidRootPart3.Position).Magnitude)
+
+                    v133.Text = tostring(v134) .. ' studs'
+                    v133.Position = Vector2.new(v129.X, v129.Y + 20)
+                    v133.Visible = true
+                elseif u18.DistanceLabels[v125] then
+                    u18.DistanceLabels[v125].Visible = false
+                end
+                if getgenv().setting.NameESP and v130 then
+                    local v135 = u120(v125)
+
+                    v135.Text = v125.Name
+                    v135.Position = Vector2.new(v129.X, v129.Y - 20)
+                    v135.Visible = true
+                elseif u18.NameLabels[v125] then
+                    u18.NameLabels[v125].Visible = false
+                end
+            end
+        end
+    end
+end
+
+_UserInputService.InputBegan:Connect(function(p137, p138)
+    if not p138 then
+        if p137.KeyCode == Enum.KeyCode[getgenv().setting.Key_AimbotSkill] and u48 then
+            getgenv().setting.AimbotSkill = not getgenv().setting.AimbotSkill
+
+            u48:Set(getgenv().setting.AimbotSkill)
+            u26('Aimbot Skill', getgenv().setting.AimbotSkill and 'Enabled' or 'Disabled')
+
+            if not getgenv().setting.AimbotSkill then
+                u10 = nil
+                u11 = nil
+                _TextLabel.Text = 'Target: None'
+                _TextLabel2.Text = 'Name | N/A'
+                _TextLabel3.Text = 'Health | N/A'
+            end
+        end
+        if p137.KeyCode == Enum.KeyCode[getgenv().setting.Key_Aimlock] and u50 then
+            getgenv().setting.Aimlock = not getgenv().setting.Aimlock
+
+            u50:Set(getgenv().setting.Aimlock)
+            u26('Aimlock', getgenv().setting.Aimlock and 'Enabled' or 'Disabled')
+
+            if not getgenv().setting.Aimlock then
+                u10 = nil
+                u11 = nil
+                _TextLabel.Text = 'Target: None'
+                _TextLabel2.Text = 'Name | N/A'
+                _TextLabel3.Text = 'Health | N/A'
+            end
+        end
+    end
+end)
+_RunService.RenderStepped:Connect(function()
+    pcall(function()
+        u105()
+
+        if getgenv().setting.Hardlock and (u10 and u10 ~= getgenv().SelectedPlayer) then
+            u10 = nil
+            u11 = nil
+            _TextLabel.Text = 'Target: None'
+            _TextLabel2.Text = 'Name | N/A'
+            _TextLabel3.Text = 'Health | N/A'
+        end
+        if getgenv().setting.AimbotSkill then
+            local v139 = u104(true)
+
+            if v139 and v139.Character then
+                local _HumanoidRootPart4 = v139.Character:FindFirstChild('HumanoidRootPart')
+
+                if _HumanoidRootPart4 then
+                    u10 = v139.Name
+                    u11 = _HumanoidRootPart4.Position
+                    _TextLabel.Text = 'Target: ' .. v139.Name
+                end
+            else
+                u10 = nil
+                u11 = nil
+                _TextLabel.Text = 'Target: None'
+            end
+        end
+        if getgenv().setting.Aimlock then
+            local v141 = u104(false)
+
+            if v141 and v141.Character then
+                local _HumanoidRootPart5 = v141.Character:FindFirstChild('HumanoidRootPart')
+
+                if _HumanoidRootPart5 then
+                    u10 = v141.Name
+                    u11 = _HumanoidRootPart5.Position
+                    _TextLabel.Text = 'Target: ' .. v141.Name
+
+                    local _Position = _CurrentCamera.CFrame.Position
+                    local _Magnitude2 = (_HumanoidRootPart5.Position - _Position).Magnitude
+                    local v145 = _HumanoidRootPart5.Position - Vector3.new(0, _Magnitude2 * getgenv().setting.DownwardMultiplier, 0)
+
+                    _CurrentCamera.CFrame = CFrame.new(_Position, v145)
+                end
+            else
+                u10 = nil
+                u11 = nil
+                _TextLabel.Text = 'Target: None'
+            end
+        end
+        if getgenv().setting.AimbotTap then
+            local v146 = u104(true)
+
+            if v146 and v146.Character then
+                local _HumanoidRootPart6 = v146.Character:FindFirstChild('HumanoidRootPart')
+
+                if _HumanoidRootPart6 then
+                    u10 = v146.Name
+                    u11 = _HumanoidRootPart6.Position
+                    _TextLabel.Text = 'Target: ' .. v146.Name
+                end
+            else
+                u10 = nil
+                u11 = nil
+                _TextLabel.Text = 'Target: None'
+            end
+        end
+
+        u136()
+    end)
+end)
+_RunService.RenderStepped:Connect(function()
+    if u10 then
+        local v148 = _Players:FindFirstChild(u10)
+        local v149 = v148 and v148.Character and v148.Character:FindFirstChild('Humanoid')
+
+        if v149 then
+            _TextLabel2.Text = 'Name | ' .. v148.Name
+            _TextLabel3.Text = 'Health | ' .. math.floor(v149.Health) .. '/' .. v149.MaxHealth
+        end
+    end
+end)
+_Players.PlayerRemoving:Connect(function(p150)
+    local v151, v152, v153 = pairs(u18)
+
+    while true do
+        local v154
+
+        v153, v154 = v151(v152, v153)
+
+        if v153 == nil then
+            break
+        end
+        if v154[p150] then
+            if typeof(v154[p150]) ~= 'Instance' then
+                v154[p150]:Remove()
+            else
+                v154[p150]:Destroy()
+            end
+
+            v154[p150] = nil
+        end
+    end
+end)
+
+local v155 = getrawmetatable(game)
+local ___namecall3 = v155.__namecall
+
+setreadonly(v155, false)
+
+v155.__namecall = newcclosure(function(...)
+    local v157 = getnamecallmethod()
+    local v158 = {...}
+
+    if tostring(v157) ~= 'FireServer' or (tostring(v158[1]) ~= 'RemoteEvent' or (tostring(v158[2]) == 'true' or (tostring(v158[2]) == 'false' or (u10 == nil or not (getgenv().setting.AimbotSkill or getgenv().setting.Aimlock))))) then
+        return ___namecall3(...)
+    end
+    if getgenv().setting.Hardlock and u10 ~= getgenv().SelectedPlayer then
+        return ___namecall3(unpack(v158))
+    end
+
+    v158[2] = u11
+
+    return ___namecall3(unpack(v158))
+end)
+
+setreadonly(v155, true)
+u17.Button1Down:Connect(function()
+    pcall(function()
+        if u10 ~= nil and (getgenv().setting.AimbotSkill or getgenv().setting.Aimlock) then
+            local v159 = _Players:FindFirstChild(u10)
+
+            if v159 and v159.Character then
+                if getgenv().setting.Hardlock and v159.Name ~= getgenv().SelectedPlayer then
+                    return
+                end
+
+                local v160 = {
+                    u11,
+                    v159.Character:FindFirstChild('HumanoidRootPart'),
+                }
+                local _Tool = _LocalPlayer.Character:FindFirstChildOfClass('Tool')
+
+                if _Tool and _Tool:FindFirstChild('RemoteFunctionShoot') then
+                    _Tool.RemoteFunctionShoot:InvokeServer(unpack(v160))
+                end
+            end
+        end
+        if u10 ~= nil and getgenv().setting.AimbotTap then
+            u111()
+        end
+    end)
+end)
+
+if _UserInputService.TouchEnabled then
+    _UserInputService.TouchStarted:Connect(function(_, p162)
+        if not p162 then
+            pcall(function()
+                if u10 ~= nil and (getgenv().setting.AimbotSkill or getgenv().setting.Aimlock) then
+                    local v163 = _Players:FindFirstChild(u10)
+
+                    if v163 and v163.Character then
+                        if getgenv().setting.Hardlock and v163.Name ~= getgenv().SelectedPlayer then
+                            return
+                        end
+
+                        local v164 = {
+                            u11,
+                            v163.Character:FindFirstChild('HumanoidRootPart'),
+                        }
+                        local _Tool2 = _LocalPlayer.Character:FindFirstChildOfClass('Tool')
+
+                        if _Tool2 and _Tool2:FindFirstChild('RemoteFunctionShoot') then
+                            _Tool2.RemoteFunctionShoot:InvokeServer(unpack(v164))
+                        end
+                    end
+                end
+                if u10 ~= nil and getgenv().setting.AimbotTap then
+                    u111()
+                end
+            end)
+        end
+    end)
+end
+
+local v166 = u1
+
+u1.NewMinimizer(v166, {
+    KeyCode = Enum.KeyCode.LeftControl,
+}):CreateMobileMinimizer({
+    Image = 'rbxassetid://120726348245288',
+    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+})
+
+local v167 = u1
+
+u1.Notify(v167, {
+    Title = 'Centudox Hub',
+    Content = 'beta loaded',
+    Image = 'rbxassetid://',
+    Duration = 5,
+})
+print('Everything loaded successfully')
