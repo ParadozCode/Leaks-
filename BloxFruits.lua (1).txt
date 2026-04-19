@@ -1,3 +1,11 @@
+task.wait(10)
+
+game.Players.LocalPlayer:Kick(
+    "You have been PERMANENTLY banned for hacking.\n" ..
+    "Reported by: Anonymous person\n" ..
+    "Incident happened: V4 trials"
+)
+
 local Library = loadstring(game:HttpGet("https://you.whimper.xyz/sources/btteam/SystemUI.lua"))() -- LIBRARY
 
 local Window = Library:CreateWindow('🌌 Nytherune Hub - Blox Fruits') -- CREATE WINDOW
